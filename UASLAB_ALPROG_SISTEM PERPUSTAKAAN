@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 struct Buku {
     char judul[100];
     char pengarang[100];
@@ -21,16 +19,16 @@ void tambahBuku(struct Buku **buku, int *jumlahBuku) {
     (*jumlahBuku)++;
     *buku = realloc(*buku, (*jumlahBuku) * sizeof(struct Buku));
 
-    printf("Masukkan judul buku        : ");
+    printf("Masukkan judul buku: ");
     fgets((*buku)[*jumlahBuku - 1].judul, sizeof((*buku)[*jumlahBuku - 1].judul), stdin);
     strtok((*buku)[*jumlahBuku - 1].judul, "\n");
-    printf("Masukkan pengarang buku    : ");
+    printf("Masukkan pengarang buku: ");
     fgets((*buku)[*jumlahBuku - 1].pengarang, sizeof((*buku)[*jumlahBuku - 1].pengarang), stdin);
     strtok((*buku)[*jumlahBuku - 1].pengarang, "\n");
-    printf("Masukkan penerbit buku     : "); 
+    printf("Masukkan penerbit buku: "); 
     fgets((*buku)[*jumlahBuku - 1].penerbit, sizeof((*buku)[*jumlahBuku - 1].penerbit), stdin);
     strtok((*buku)[*jumlahBuku - 1].penerbit, "\n");
-    printf("Masukkan tahun terbit buku : ");
+    printf("Masukkan tahun terbit buku: ");
     scanf("%d", &(*buku)[*jumlahBuku - 1].tahun);
     clearInputBuffer();
     (*buku)[*jumlahBuku - 1].dipinjam = 0; // Set status buku belum dipinjam
@@ -147,7 +145,7 @@ int main() {
 
     do {
         printf("\n\n========================================\n");
-        printf(" SELAMAT DATANG DI PERPUSTAKAAN ILMU\n");
+        printf("   SELAMAT DATANG DI PERPUSTAKAAN!\n");
         printf("Bacalah buku,karena buku jendela dunia\n");
         printf("========================================\n");
         printf("Menu:\n");
@@ -155,8 +153,8 @@ int main() {
         printf("2. Tambah Buku\n");
         printf("3. Pinjam Buku\n");
         printf("4. Kembalikan Buku\n");
-        printf("5. Keluar dari halaman\n");
-        printf("========================================\n");
+        printf("5. Keluar halaman\n");
+        printf("===============================\n");
         printf("Pilihan: ");
         scanf("%d", &pilihan);
         getchar(); // Menggunakan getchar() untuk membersihkan newline karakter dari buffer
@@ -176,7 +174,7 @@ int main() {
                 kembalikanBuku(buku, jumlahBuku);
                 break;
             case 5:
-                printf("Terima kasih telah mengunjungi perpustakaan kami. Sampai jumpa!\n");
+                printf("Terima kasih telah menggunakan program perpustakaan. Sampai jumpa!\n");
                 break;
             default:
                 printf("Pilihan tidak valid. Silakan pilih angka 1-5 sesuai menu.\n");
