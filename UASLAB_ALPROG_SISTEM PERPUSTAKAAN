@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+struct Buku {
+    char judul[100];
+    char pengarang[100];
+    char penerbit[100]; 
+    int tahun;
+    int dipinjam;
+};
+
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+void tambahBuku(struct Buku **buku, int *jumlahBuku) {
+    (*jumlahBuku)++;
+    *buku = realloc(*buku, (*jumlahBuku) * sizeof(struct Buku));
+
+    printf("Masukkan judul buku        : ");
+    fgets((*buku)[*jumlahBuku - 1].judul, sizeof((*buku)[*jumlahBuku - 1].judul), stdin);
+    strtok((*buku)[*jumlahBuku - 1].judul, "\n");
+    printf("Masukkan pengarang buku    : ");
+    fgets((*buku)[*jumlahBuku - 1].pengarang, sizeof((*buku)[*jumlahBuku - 1].pengarang), stdin);
+    strtok((*buku)[*jumlahBuku - 1].pengarang, "\n");
+    printf("Masukkan penerbit buku     : "); 
+    fgets((*buku)[*jumlahBuku - 1].penerbit, sizeof((*buku)[*jumlahBuku - 1].penerbit), stdin);
+    strtok((*buku)[*jumlahBuku - 1].penerbit, "\n");
+    printf("Masukkan tahun terbit buku : ");
+    scanf("%d", &(*buku)[*jumlahBuku - 1].tahun);
+    clearInputBuffer();
+    (*buku)[*jumlahBuku - 1].dipinjam = 0; // Set status buku belum dipinjam
+
+    printf("Buku berhasil ditambahkan!\n");
+}
+
+void pinjamBuku(struct Buku *buku, int jumlahBuku) {
+    if (jumlahBuku > 0) {
+        char judul[100];
+        printf("Masukkan judul buku yang akan dipinjam: ");
+        fgets(judul, sizeof(judul), stdin);
+        strtok(judul, "\n");
+
+        int found = 0;
+        for (int i = 0; i < jumlahBuku; i++) {
+            if (strcmp(buku[i].judul, judul) == 0) {
+                if (buku[i].dipinjam == 0) {
+                    buku[i].dipinjam = 1; // Set status buku sedang dipinjam
+                    printf("Buku dengan judul '%s' berhasil dipinjam!\n", judul);
+                } else {
+                    printf("Buku dengan judul '%s' sudah sedang dipinjam.\n", judul);
+                }
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            printf("Buku dengan judul '%s' tidak ditemukan.\n", judul);
+        }
+    } else {
+        printf("Belum ada buku yang tersedia.\n");
+    }
+}
+
+void tampilkanBuku(struct Buku *buku, int jumlahBuku) {
+    if (jumlahBuku > 0) {
+        printf("Daftar buku:\n");
+        int found = 0; // Menambahkan inisialisasi found
+        for (int i = 0; i < jumlahBuku; i++) {
+            printf("Judul: %s\n", buku[i].judul);
+            printf("Pengarang: %s\n", buku[i].pengarang);
+                        printf("Tahun Terbit: %d\n", buku[i].tahun);
+            printf("Status: %s\n", buku[i].dipinjam == 0 ? "Tersedia" : "Dipinjam");
+            printf("=====================\n");
+            found = 1; // Menandai bahwa setidaknya ada satu buku yang ditemukan
+        }
+        if (!found) {
+            printf("Tidak ada buku yang tersedia.\n");
+        }
+    } 
+}
+
